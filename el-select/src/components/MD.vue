@@ -1,12 +1,13 @@
 <template>
-  <el-table :data="tableData" style="width: 100%">
+  <el-table :data="articles" style="width: 100%">
     <el-table-column label="姓名">
       <template slot-scope="scope">
         <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
+          <p>标题: {{ scope.row.title }}</p>
+          <p>标签: {{ scope.row.tags }}</p>
+          <p>目录: {{ scope.row.categories }}</p>
           <div slot="reference">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+            <el-tag size="medium">{{ scope.row.title }}</el-tag>
           </div>
         </el-popover>
       </template>
@@ -28,11 +29,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   data() {
     return {
-      Article: [],
+      articles: [],
       tableData: [
         {
           date: "2016-05-02",
@@ -62,13 +63,14 @@ export default {
   created() {
     axios
       .get("http://localhost:8545/getArticle")
-      .then(function (response) {
-        console.log(response);
-        this.Article=response.data
-
+      .then((res) => {
+        console.log(res)
+        this.articles = res.data
+        console.log(res.data)
+        console.log(this.articles)
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
       });
   },
 

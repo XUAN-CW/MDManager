@@ -1,19 +1,22 @@
 <template>
   <div id="app">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <TablesDemo/>
+    <CheckboxDemo/>
+    <DialogForm/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import TablesDemo from './components/TablesDemo.vue'
+import CheckboxDemo from './components/checkboxDemo.vue'
+import DialogForm from './components/DialogForm.vue'
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    TablesDemo
+    CheckboxDemo,
+    DialogForm
   }
 }
 </script>

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,5 +73,13 @@ class DemoApplicationTests {
         articleService.getArticles().forEach(article -> {
             System.out.println(article.toString());
         });
+    }
+
+    // [java实现双击打开文件功能](https://zhidao.baidu.com/question/541273746.html)
+    @Test
+    public void openFile() throws IOException {
+        //通过doc命令可以通过默认方式打开文件
+        String command = "rundll32 url.dll,FileProtocolHandler " + "D:\\core\\java\\MyProject\\MDManager\\backend\\src\\test\\TsetData\\windows下jdk安装.md";
+        Runtime.getRuntime().exec(command);
     }
 }

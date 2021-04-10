@@ -1,22 +1,28 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+
+    <MD/>
+
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/>
     <CheckboxDemo/>
-    <DialogForm/>
+    <DialogForm/> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import CheckboxDemo from './components/checkboxDemo.vue'
-import DialogForm from './components/DialogForm.vue'
+// import HelloWorld from './components/HelloWorld.vue'
+// import CheckboxDemo from './components/checkboxDemo.vue'
+// import DialogForm from './components/DialogForm.vue'
+import MD from './components/MD'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
-    CheckboxDemo,
-    DialogForm
+    // HelloWorld,
+    // CheckboxDemo,
+    // DialogForm,
+    MD
   }
 }
 </script>

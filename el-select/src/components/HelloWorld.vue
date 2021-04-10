@@ -145,8 +145,10 @@ export default {
     },
 
     logValue(e) {
-      console.log(e);
+      //下拉框隐藏时触发
+      if(!e){
       console.log(this.value);
+      }
     },
   },
 };

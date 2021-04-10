@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button type="text" @click="dialogVisible = true">编辑</el-button>
- 
+
     <el-dialog title="表单弹框" :visible.sync="dialogVisible" width="30%">
       <el-form ref="form" :model="form" label-width="80px">
         <el-form-item label="姓名">
@@ -13,22 +13,33 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button type="primary" @click="logValue"
+          >确 定</el-button
+        >
       </span>
     </el-dialog>
   </div>
 </template>
  
 <script>
-  export default {
-    data() {
-      return {
-        dialogVisible:false,
-        form: {
-          name: '',
-          number:''
-        }
-      };
-    }
-  };
+export default {
+  data() {
+    return {
+      dialogVisible: false,
+      form: {
+        name: "",
+        number: "",
+      },
+    };
+  },
+  methods: {
+    logValue() {
+      //下拉框隐藏时触发
+      console.log();
+        console.log(this.form.name);
+        
+        
+    },
+  },
+};
 </script>

@@ -4,6 +4,7 @@ import com.example.demo.domain.Article;
 import com.example.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,7 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
-    @RequestMapping("/getArticle")
+    @GetMapping("/getArticle")
     public List<Article> getArticle(){
 
         return articleService.getArticles();

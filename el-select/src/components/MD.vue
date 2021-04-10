@@ -20,8 +20,8 @@
         <el-button
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)"
-          >删除</el-button
+          @click="openFile(scope.$index, scope.row)"
+          >打开</el-button
         >
       </template>
     </el-table-column>
@@ -64,10 +64,10 @@ export default {
     axios
       .get("http://localhost:8545/getArticle")
       .then((res) => {
-        console.log(res)
-        this.articles = res.data
-        console.log(res.data)
-        console.log(this.articles)
+        console.log(res);
+        this.articles = res.data;
+        console.log(res.data);
+        console.log(this.articles);
       })
       .catch((err) => {
         console.log(err);
@@ -78,8 +78,19 @@ export default {
     handleEdit(index, row) {
       console.log(index, row);
     },
-    handleDelete(index, row) {
-      console.log(index, row);
+    openFile(index, row) {
+      console.log(index, row.path);
+
+      axios
+        .post("http://localhost:8545/openFile", {
+          path: row.path,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -58,4 +59,8 @@ public class ArticleService {
         return articleList;
     }
 
+    public void openFile(String path) throws IOException {
+        String command = "rundll32 url.dll,FileProtocolHandler " + path;
+        Runtime.getRuntime().exec(command);
+    }
 }

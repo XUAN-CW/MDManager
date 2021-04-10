@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form ref="form" :model="form">
+    <el-form ref="form">
       <el-select
         v-model="value"
         multiple
@@ -9,6 +9,9 @@
         default-first-option
         placeholder="输入知识点内容，用回车添加"
         size="100"
+        :remote-method="remoteMethod"
+        :loading="loading"
+        @visible-change="logValue($event)"
       >
         <el-option
           v-for="item in list"
@@ -25,7 +28,6 @@
 export default {
   data() {
     return {
-
       options: [],
       value: [],
       list: [],
@@ -136,6 +138,15 @@ export default {
       } else {
         this.options = [];
       }
+    },
+
+    checkBlur(e) {
+      console.log(e.target.value);
+    },
+
+    logValue(e) {
+      console.log(e);
+      console.log(this.value);
     },
   },
 };

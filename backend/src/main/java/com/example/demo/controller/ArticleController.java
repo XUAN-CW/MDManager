@@ -32,7 +32,7 @@ public class ArticleController {
 
     @PostMapping("/openFile")
     public void openFile(@RequestBody String path) throws IOException {
-        System.out.println(path);
+//        System.out.println(path);
         JSONObject jsonObject = (JSONObject) JSONObject.parse(path);
         articleService.openFile(jsonObject.getString("path"));
     }

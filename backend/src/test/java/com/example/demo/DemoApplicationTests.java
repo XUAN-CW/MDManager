@@ -22,17 +22,19 @@ class DemoApplicationTests {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    GetFile getFile;
 
     @Test
     public void getFileBySuffix() {
-        GetFile.getFileBySuffix(rootPath,".md").forEach((file)->{
+        getFile.getFileBySuffix(rootPath,".md").forEach((file)->{
             System.out.println(file.getAbsolutePath());
         });
     }
 
     @Test
     public void getDescription(){
-        GetFile.getFileBySuffix(rootPath,".md").forEach((file)->{
+        getFile.getFileBySuffix(rootPath,".md").forEach((file)->{
             System.out.println(file.getAbsolutePath());
             String content = SaveAndRead.read(file.getAbsolutePath());
             String reg = "(?<=^(---))[\\s\\S]*?(?=\\1)";//定义正则表达式
@@ -49,7 +51,7 @@ class DemoApplicationTests {
     @Test
     public void testYml() {
 
-        GetFile.getFileBySuffix(rootPath,".md").forEach((file)->{
+        getFile.getFileBySuffix(rootPath,".md").forEach((file)->{
             System.out.println(file.getAbsolutePath());
             String content = SaveAndRead.read(file.getAbsolutePath());
             String reg = "(?<=^(---))[\\s\\S]*?(?=\\1)";//定义正则表达式

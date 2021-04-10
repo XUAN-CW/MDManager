@@ -32,6 +32,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      Article: [],
       tableData: [
         {
           date: "2016-05-02",
@@ -63,6 +64,8 @@ export default {
       .get("http://localhost:8545/getArticle")
       .then(function (response) {
         console.log(response);
+        this.Article=response.data
+
       })
       .catch(function (error) {
         console.log(error);

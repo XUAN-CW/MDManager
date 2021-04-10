@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.domain.Article;
 import com.example.demo.utils.GetFile;
 import com.example.demo.utils.SaveAndRead;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.Yaml;
@@ -26,10 +27,13 @@ public class ArticleService {
     @Value("${conf.rootPath}")
     String rootPath;
 
+    @Autowired
+    GetFile getFile;
+
     public List<Article> getArticles(){
 
         List<Article> articleList = new ArrayList<>();
-        List<File> fileList = GetFile.getFileBySuffix(rootPath,".md");
+        List<File> fileList = getFile.getFileBySuffix(rootPath,".md");
         for (File file:fileList) {
             String content = SaveAndRead.read(file.getAbsolutePath());
             String reg = "(?<=^(---))[\\s\\S]*?(?=\\1)";//定义正则表达式

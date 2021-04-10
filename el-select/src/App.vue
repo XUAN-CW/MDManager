@@ -1,20 +1,19 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <RemoteDemo/>
+    <TablesDemo/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import RemoteDemo from './components/RemoteDemo.vue'
+import TablesDemo from './components/TablesDemo.vue'
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    RemoteDemo
+    TablesDemo
   }
 }
 </script>

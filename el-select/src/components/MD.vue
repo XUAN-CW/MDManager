@@ -1,9 +1,7 @@
 <template>
   <div>
     <el-input v-model="search.title" placeholder="按标题搜索"></el-input>
-    <el-button
-      type="primary"
-      @click="search.more = !search.more"
+    <el-button type="primary" @click="search.more = !search.more"
       >标签/目录搜索</el-button
     >
     <div v-show="this.search.more">显示部分</div>

@@ -33,7 +33,7 @@
             }
           }
 
-          return titleFilter === tagFilter;
+          return titleFilter && tagFilter;
         })
       "
       style="width: 100%"

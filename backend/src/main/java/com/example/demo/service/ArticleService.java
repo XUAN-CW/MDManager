@@ -11,7 +11,9 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,8 +49,11 @@ public class ArticleService {
                 try {
                     Yaml yaml = new Yaml();
                     String description = matcher.group();
-                    article = yaml.loadAs(description, Article.class);
-
+                    Map map = yaml.loadAs(description, Map.class);
+                    article.setTitle((String) map.get("title"));
+                    article.setDate((Date) map.get("date"));
+                    article.setCategories((List<String>) map.get("categories"));
+                    article.setTags((List<String>) map.get("tags"));
                 }catch (Exception e){
                     e.printStackTrace();
                 }

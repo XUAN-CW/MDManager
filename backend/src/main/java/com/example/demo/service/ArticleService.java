@@ -50,6 +50,7 @@ public class ArticleService {
                     Yaml yaml = new Yaml();
                     String description = matcher.group();
                     Map map = yaml.loadAs(description, Map.class);
+                    article.setPath(file.getAbsolutePath());
                     article.setTitle((String) map.get("title"));
                     article.setDate((Date) map.get("date"));
                     article.setCategories((List<String>) map.get("categories"));
@@ -57,7 +58,6 @@ public class ArticleService {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-                article.setPath(file.getAbsolutePath());
                 articleList.add(article);
             }
         }

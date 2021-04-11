@@ -1,31 +1,34 @@
 <template>
-  <el-table :data="articles" style="width: 100%">
-    <el-table-column label="姓名">
-      <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>标题: {{ scope.row.title }}</p>
-          <p>标签: {{ scope.row.tags }}</p>
-          <p>目录: {{ scope.row.categories }}</p>
-          <div slot="reference">
-            <el-tag size="medium">{{ scope.row.title }}</el-tag>
-          </div>
-        </el-popover>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作" align="right">
-      <template slot-scope="scope">
-        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-          >编辑</el-button
-        >
-        <el-button
-          size="mini"
-          type="danger"
-          @click="openFile(scope.$index, scope.row)"
-          >打开</el-button
-        >
-      </template>
-    </el-table-column>
-  </el-table>
+  <div>
+    <el-input v-model="search.title" placeholder="按标题搜索"></el-input>
+    <el-table :data="articles.filter(data => data.title.toLowerCase().includes(search.title.toLowerCase()))" style="width: 100%">
+      <el-table-column label="姓名">
+        <template slot-scope="scope">
+          <el-popover trigger="hover" placement="top">
+            <p>标题: {{ scope.row.title }}</p>
+            <p>标签: {{ scope.row.tags }}</p>
+            <p>目录: {{ scope.row.categories }}</p>
+            <div slot="reference">
+              <el-tag size="medium">{{ scope.row.title }}</el-tag>
+            </div>
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="right">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button
+          >
+          <el-button
+            size="mini"
+            type="danger"
+            @click="openFile(scope.$index, scope.row)"
+            >打开</el-button
+          >
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 </template>
 
 <script>
@@ -33,7 +36,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      articles: []
+      articles: [],
+      search: {
+        title: "",
+      },
     };
   },
 

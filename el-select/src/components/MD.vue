@@ -4,7 +4,16 @@
     <el-button type="primary" @click="search.more = !search.more"
       >标签/目录搜索</el-button
     >
-    <div v-show="this.search.more">显示部分</div>
+    <div v-show="this.search.more">
+      <el-checkbox-group
+        v-model="search.checkedTags"
+        @change="handleCheckedCitiesChange"
+      >
+        <el-checkbox v-for="tag in allTag" :label="tag" :key="tag">{{
+          tag
+        }}</el-checkbox>
+      </el-checkbox-group>
+    </div>
     <el-table
       :data="
         articles.filter((data) =>
@@ -51,6 +60,7 @@ export default {
       search: {
         title: "",
         more: true,
+        checkedTags: [],
       },
     };
   },

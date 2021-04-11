@@ -1,7 +1,20 @@
 <template>
   <div>
     <el-input v-model="search.title" placeholder="按标题搜索"></el-input>
-    <el-table :data="articles.filter(data => data.title.toLowerCase().includes(search.title.toLowerCase()))" style="width: 100%">
+    <el-button
+      type="primary"
+      @click="search.more = !search.more"
+      >标签/目录搜索</el-button
+    >
+    <div v-show="this.search.more">显示部分</div>
+    <el-table
+      :data="
+        articles.filter((data) =>
+          data.title.toLowerCase().includes(search.title.toLowerCase())
+        )
+      "
+      style="width: 100%"
+    >
       <el-table-column label="姓名">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -39,6 +52,7 @@ export default {
       articles: [],
       search: {
         title: "",
+        more: true,
       },
     };
   },
@@ -47,10 +61,10 @@ export default {
     axios
       .get("http://localhost:8545/getArticle")
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         this.articles = res.data;
-        console.log(res.data);
-        console.log(this.articles);
+        // console.log(res.data);
+        // console.log(this.articles);
       })
       .catch((err) => {
         console.log(err);
@@ -59,6 +73,7 @@ export default {
 
   methods: {
     handleEdit(index, row) {
+      console.log(this.search.more);
       console.log(index, row);
     },
     openFile(index, row) {

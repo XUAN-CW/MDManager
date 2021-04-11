@@ -1,15 +1,30 @@
 <template>
-  <div>
-    <el-input v-model="search.title" placeholder="按标题搜索"></el-input>
-    <el-button type="primary" @click="search.more = !search.more"
-      >标签/目录搜索</el-button
-    >
-    <div v-show="this.search.more">
-      <el-checkbox-group v-model="search.checkedTags">
-        <el-checkbox v-for="tag in allTag" :label="tag" :key="tag">{{
-          tag
-        }}</el-checkbox>
-      </el-checkbox-group>
+  <div id="MD">
+    <div id="serachDiv">
+      <div id="search_basics">
+        <div id="search_input">
+          <el-input v-model="search.title" placeholder="按标题搜索"></el-input>
+        </div>
+
+        <div id="search_more_btn">
+          <el-button type="primary" @click="search.more = !search.more"
+            >标签/目录搜索</el-button
+          >
+        </div>
+      </div>
+      <div></div>
+      <div id="search_more" v-show="this.search.more">
+        <el-checkbox-group v-model="search.checkedTags">
+          <el-checkbox-button
+            border
+            size="medium"
+            v-for="tag in allTag"
+            :label="tag"
+            :key="tag"
+            >{{ tag }}</el-checkbox-button
+          >
+        </el-checkbox-group>
+      </div>
     </div>
     <el-table
       :data="
@@ -22,9 +37,13 @@
           if (this.search.checkedTags != '') {
             if (article.tags != null) {
               for (let i = 0; i < search.checkedTags.length && tagFilter; i++) {
-                if (article.tags.findIndex((item) => item === search.checkedTags[i]) != -1) {
+                if (
+                  article.tags.findIndex(
+                    (item) => item === search.checkedTags[i]
+                  ) != -1
+                ) {
                   tagFilter = true;
-                }else{
+                } else {
                   tagFilter = false;
                 }
               }
@@ -36,7 +55,6 @@
           return titleFilter && tagFilter;
         })
       "
-      style="width: 100%"
     >
       <el-table-column label="姓名">
         <template slot-scope="scope">
@@ -142,3 +160,28 @@ export default {
   },
 };
 </script>
+
+<style>
+html {
+  overflow-y: scroll;
+}
+
+#MD {
+  width: 90%;
+  margin: 0 auto;
+}
+
+#search_basics {
+  display: inline;
+}
+#search_input {
+  display: inline-block;
+  width: 70%;
+}
+#search_more_btn {
+  display: inline-block;
+}
+#search_more {
+  padding-top: 20px;
+}
+</style>

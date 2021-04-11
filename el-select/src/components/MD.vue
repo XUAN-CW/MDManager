@@ -21,10 +21,9 @@
           let tagFilter = true;
           if (this.search.checkedTags != '') {
             if (article.tags != null) {
-              for (let i = 0; i < search.checkedTags.length; i++) {
+              for (let i = 0; i < search.checkedTags.length && tagFilter; i++) {
                 if (article.tags.findIndex((item) => item === search.checkedTags[i]) != -1) {
                   tagFilter = true;
-                  break;
                 }else{
                   tagFilter = false;
                 }

@@ -55,6 +55,30 @@ export default {
     };
   },
 
+  computed: {
+    allTag() {
+      // 1. 合并所有 tag
+      let tagConcatResult = [];
+      for (let i = 0; i < this.articles.length; i++) {
+        tagConcatResult = tagConcatResult.concat(this.articles[i].tags);
+      }
+
+      // 2. 对合并到的 tag 去重
+      let result = {};
+      let finalResult = [];
+      for (let i = 0; i < tagConcatResult.length; i++) {
+        // tagConcatResult[i].something 不能重复,达到去重效果,且这里必须知晓"something"或是其他键名
+        result[tagConcatResult[i]] = tagConcatResult[i];
+      }
+      for (const item in result) {
+        if (item != "null") {
+          finalResult.push(result[item]);
+        }
+      }
+      return finalResult; //要返回的数据
+    },
+  },
+
   created() {
     axios
       .get("http://localhost:8545/getArticle")

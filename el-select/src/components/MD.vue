@@ -5,9 +5,7 @@
       >标签/目录搜索</el-button
     >
     <div v-show="this.search.more">
-      <el-checkbox-group
-        v-model="search.checkedTags"
-      >
+      <el-checkbox-group v-model="search.checkedTags">
         <el-checkbox v-for="tag in allTag" :label="tag" :key="tag">{{
           tag
         }}</el-checkbox>
@@ -15,9 +13,29 @@
     </div>
     <el-table
       :data="
-        articles.filter((data) =>
-          data.title.toLowerCase().includes(search.title.toLowerCase())
-        )
+        articles.filter((article) => {
+          let titleFilter = article.title
+            .toLowerCase()
+            .includes(search.title.toLowerCase());
+
+          let tagFilter = true;
+          if (this.search.checkedTags != '') {
+            if (article.tags != null) {
+              for (let i = 0; i < search.checkedTags.length; i++) {
+                if (article.tags.findIndex((item) => item === search.checkedTags[i]) != -1) {
+                  tagFilter = true;
+                  break;
+                }else{
+                  tagFilter = false;
+                }
+              }
+            } else {
+              tagFilter = false;
+            }
+          }
+
+          return titleFilter === tagFilter;
+        })
       "
       style="width: 100%"
     >
@@ -95,7 +113,8 @@ export default {
         // console.log(res);
         this.articles = res.data;
         // console.log(res.data);
-        // console.log(this.articles);
+        console.log(this.search.checkedTags == "");
+        console.log(this.articles.length);
       })
       .catch((err) => {
         console.log(err);

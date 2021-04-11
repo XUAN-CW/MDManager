@@ -56,26 +56,23 @@
         })
       "
     >
-      <el-table-column label="姓名">
+      <el-table-column label="title">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
-            <p>标题: {{ scope.row.title }}</p>
+            <h4>{{ scope.row.title }}</h4>
             <p>标签: {{ scope.row.tags }}</p>
             <p>目录: {{ scope.row.categories }}</p>
             <div slot="reference">
-              <el-tag size="medium">{{ scope.row.title }}</el-tag>
+              {{ scope.row.title }}
             </div>
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="right">
+      <el-table-column label="操作" width="100%" id="table_operate">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
-            >编辑</el-button
-          >
           <el-button
             size="mini"
-            type="danger"
+            type="primary"
             @click="openFile(scope.$index, scope.row)"
             >打开</el-button
           >
@@ -139,10 +136,6 @@ export default {
   },
 
   methods: {
-    handleEdit(index, row) {
-      console.log(this.search.more);
-      console.log(index, row);
-    },
     openFile(index, row) {
       console.log(index, row.path);
 
@@ -167,7 +160,7 @@ html {
 }
 
 #MD {
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
 }
 

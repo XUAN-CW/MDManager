@@ -7,7 +7,6 @@
     <div v-show="this.search.more">
       <el-checkbox-group
         v-model="search.checkedTags"
-        @change="handleCheckedCitiesChange"
       >
         <el-checkbox v-for="tag in allTag" :label="tag" :key="tag">{{
           tag

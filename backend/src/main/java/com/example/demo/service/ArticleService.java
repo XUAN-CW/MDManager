@@ -44,22 +44,31 @@ public class ArticleService {
             Pattern patten = Pattern.compile(reg);//编译正则表达式
             Matcher matcher = patten.matcher(content);// 指定要匹配的字符串
 
+            Article article = new Article();
             if (matcher.find()){
-                Article article = new Article();
                 try {
                     Yaml yaml = new Yaml();
                     String description = matcher.group();
                     Map map = yaml.loadAs(description, Map.class);
+                    String title=(String) map.get("title");
+                    Date date = (Date) map.get("date");
+                    List categories = (List<String>) map.get("categories");
+                    List tags = (List<String>) map.get("tags");
                     article.setPath(file.getAbsolutePath());
-                    article.setTitle((String) map.get("title"));
-                    article.setDate((Date) map.get("date"));
-                    article.setCategories((List<String>) map.get("categories"));
-                    article.setTags((List<String>) map.get("tags"));
+                    article.setTitle(title);
+                    article.setDate(date);
+                    article.setCategories(categories);
+                    article.setTags(tags);
                 }catch (Exception e){
                     e.printStackTrace();
+                    article.setTitle("文件 YAML 格式有误");
+                    article.setPath(file.getAbsolutePath());
                 }
-                articleList.add(article);
+            }else {
+                article.setTitle("文件无 YAML");
+                article.setPath(file.getAbsolutePath());
             }
+            articleList.add(article);
         }
         return articleList;
     }

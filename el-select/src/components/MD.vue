@@ -19,6 +19,7 @@
             border
             size="medium"
             v-for="tag in allTag"
+            class="tag_btn"
             :label="tag"
             :key="tag"
             >{{ tag }}</el-checkbox-button
@@ -126,9 +127,7 @@ export default {
       .then((res) => {
         // console.log(res);
         this.articles = res.data;
-        // console.log(res.data);
-        console.log(this.search.checkedTags == "");
-        console.log(this.articles.length);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -176,5 +175,9 @@ html {
 }
 #search_more {
   padding-top: 20px;
+}
+.tag_btn{
+  margin-top: 10px;
+  margin-left: auto;
 }
 </style>

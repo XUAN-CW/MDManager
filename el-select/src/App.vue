@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-
+  <Test/>
 
     <MD/>
 
@@ -15,6 +15,7 @@
 // import CheckboxDemo from './components/checkboxDemo.vue'
 // import DialogForm from './components/DialogForm.vue'
 import MD from './components/MD'
+import Test from '@/components/Test'
 
 export default {
   name: 'App',
@@ -22,7 +23,8 @@ export default {
     // HelloWorld,
     // CheckboxDemo,
     // DialogForm,
-    MD
+    MD,
+    Test
   }
 }
 </script>

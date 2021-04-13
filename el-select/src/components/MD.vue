@@ -30,7 +30,7 @@
     <el-table
       :data="
         articles.filter((article) => {
-          let titleFilter = article.title
+          let titleFilter = JSON.stringify(article)
             .toLowerCase()
             .includes(search.title.toLowerCase());
 
@@ -127,7 +127,7 @@ export default {
       .then((res) => {
         // console.log(res);
         this.articles = res.data;
-        console.log(res.data);
+        console.log(JSON.stringify(res.data));
       })
       .catch((err) => {
         console.log(err);

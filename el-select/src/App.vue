@@ -15,7 +15,7 @@
 // import CheckboxDemo from './components/checkboxDemo.vue'
 // import DialogForm from './components/DialogForm.vue'
 import MD from './components/MD'
-import Test from '@/components/Test'
+import Test from '@/components/Test/Test'
 
 export default {
   name: 'App',

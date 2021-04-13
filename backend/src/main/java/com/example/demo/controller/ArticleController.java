@@ -9,6 +9,7 @@ import com.example.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class ArticleController {
     @GetMapping("/openFile")
     public R openFile(String path) throws IOException {
         System.out.println(path);
-        articleService.openFile(path);
+        articleService.openFile(new File(path));
         return R.ok();
     }
 

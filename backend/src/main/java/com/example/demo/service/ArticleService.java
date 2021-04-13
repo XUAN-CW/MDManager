@@ -71,8 +71,7 @@ public class ArticleService {
         return articleList;
     }
 
-    public void openFile(String path) throws IOException {
-        String command = "rundll32 url.dll,FileProtocolHandler " + path;
-        Runtime.getRuntime().exec(command);
+    public void openFile(File file) throws IOException {
+        java.awt.Desktop.getDesktop().open(file);
     }
 }

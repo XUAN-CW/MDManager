@@ -79,12 +79,12 @@
                 multiple
                 filterable
                 allow-create
-                default-first-option
                 placeholder="请选择"
-                style="width:95%"
+                @visible-change="changeValue1($event)"
+                style="width: 95%"
               >
                 <el-option
-                  v-for="item in allTag"
+                  v-for="item in edit.editTag"
                   :key="item.index"
                   :label="item"
                   :value="item"
@@ -122,6 +122,9 @@ export default {
         title: "",
         more: true,
         checkedTags: [],
+      },
+      edit: {
+        editTag: [],
       },
     };
   },
@@ -195,6 +198,12 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    changeValue1(callback) {
+      //只有回调参数为false时才触发 ctx.getAreaListDataSearch(vc,1)这个函数;
+      if (callback) {
+        this.edit.editTag = this.allTag;
+      }
     },
   },
 };

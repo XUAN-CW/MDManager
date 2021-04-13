@@ -69,8 +69,31 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100%" id="table_operate">
+      <el-table-column label="操作" width="200%" id="table_operate">
         <template slot-scope="scope">
+          <el-button size="mini" type="primary">
+            <el-popover trigger="click" placement="top" width="1000">
+              <span>标签：</span>
+              <el-select
+                v-model="scope.row.tags"
+                multiple
+                filterable
+                allow-create
+                default-first-option
+                placeholder="请选择"
+                style="width:95%"
+              >
+                <el-option
+                  v-for="item in allTag"
+                  :key="item.index"
+                  :label="item"
+                  :value="item"
+                >
+                </el-option>
+              </el-select>
+              <div slot="reference">编辑</div>
+            </el-popover></el-button
+          >
           <el-button
             size="mini"
             type="primary"

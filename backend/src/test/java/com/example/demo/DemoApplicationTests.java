@@ -1,13 +1,15 @@
 package com.example.demo;
 
+import com.example.demo.config.Settings;
 import com.example.demo.domain.Article;
 import com.example.demo.service.ArticleService;
-import com.example.demo.utils.GetFile;
+import com.example.demo.utils.GetMarkdown;
 import com.example.demo.utils.SaveAndRead;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,35 +26,31 @@ class DemoApplicationTests {
     ArticleService articleService;
 
     @Autowired
-    GetFile getFile;
+    GetMarkdown getFile;
+
+    @Autowired
+    Settings settings;
+
+    @Test
+    void settingsTest(){
+        System.out.println(settings);
+    }
 
     @Test
     public void getFileBySuffix() {
-        getFile.getFileBySuffix(rootPath,".md").forEach((file)->{
-            System.out.println(file.getAbsolutePath());
-        });
+        for (String s:
+                settings.getScanPath()) {
+            getFile.getFileBySuffix(s).forEach((file)->{
+                System.out.println(file.getAbsolutePath());
+            });
+        }
     }
 
-    @Test
-    public void getDescription(){
-        getFile.getFileBySuffix(rootPath,".md").forEach((file)->{
-            System.out.println(file.getAbsolutePath());
-            String content = SaveAndRead.read(file.getAbsolutePath());
-            String reg = "(?<=^(---))[\\s\\S]*?(?=\\1)";//定义正则表达式
-
-            Pattern patten = Pattern.compile(reg);//编译正则表达式
-            Matcher matcher = patten.matcher(content);// 指定要匹配的字符串
-
-            if (matcher.find()){
-                System.out.println(matcher.group());
-            }
-        });
-    }
 
     @Test
     public void testYml() {
 
-        getFile.getFileBySuffix(rootPath,".md").forEach((file)->{
+        getFile.getFileBySuffix(rootPath).forEach((file)->{
             System.out.println(file.getAbsolutePath());
             String content = SaveAndRead.read(file.getAbsolutePath());
             String reg = "(?<=^(---))[\\s\\S]*?(?=\\1)";//定义正则表达式
@@ -74,7 +72,7 @@ class DemoApplicationTests {
     @Test
     public void testYmlMap() {
 
-        getFile.getFileBySuffix(rootPath,".md").forEach((file)->{
+        getFile.getFileBySuffix(rootPath).forEach((file)->{
             System.out.println(file.getAbsolutePath());
             String content = SaveAndRead.read(file.getAbsolutePath());
             String reg = "(?<=^(---))[\\s\\S]*?(?=\\1)";//定义正则表达式
@@ -110,9 +108,9 @@ class DemoApplicationTests {
 
     @Test
     public void articleServiceTest(){
-        articleService.getArticles().forEach(article -> {
-            System.out.println(article.toString());
-        });
+        for (String s: settings.getScanPath()) {
+            articleService.getArticles(s).forEach(article -> System.out.println(article.toString()));
+        }
     }
 
     // [java实现双击打开文件功能](https://zhidao.baidu.com/question/541273746.html)

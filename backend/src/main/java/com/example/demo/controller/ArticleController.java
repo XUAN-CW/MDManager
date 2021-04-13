@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.common.R;
+import com.example.demo.config.Settings;
 import com.example.demo.domain.Article;
 import com.example.demo.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +25,27 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    @Autowired
+    Settings settings;
+
+    @GetMapping("/getScanPath")
+    public R getScanPath(){
+        return R.ok().data("scanPath",settings.getScanPath());
+    }
+
     @GetMapping("/getArticle")
-    public List<Article> getArticle(){
-
-        return articleService.getArticles();
+    public R getArticle(String dir){
+//        System.out.println(dir);
+//        return R.ok();
+        return R.ok().data("articles",articleService.getArticles(dir)).data("dir",dir);
     }
 
-
-    @PostMapping("/openFile")
-    public void openFile(@RequestBody String path) throws IOException {
-//        System.out.println(path);
-        JSONObject jsonObject = (JSONObject) JSONObject.parse(path);
-        articleService.openFile(jsonObject.getString("path"));
+    @GetMapping("/openFile")
+    public R openFile(String path) throws IOException {
+        System.out.println(path);
+        articleService.openFile(path);
+        return R.ok();
     }
+
 
 }

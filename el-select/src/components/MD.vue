@@ -75,7 +75,12 @@
             size="mini"
             type="primary"
             @click="openFile(scope.$index, scope.row)"
-            >打开</el-button
+          >
+            <el-popover trigger="hover" placement="top">
+              <h4>{{ scope.row.title }}</h4>
+              <p>路径：{{ scope.row.path }}</p>
+              <div slot="reference">打开</div>
+            </el-popover></el-button
           >
         </template>
       </el-table-column>
@@ -88,6 +93,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      scanPath: [],
       articles: [],
       search: {
         title: "",
@@ -123,11 +129,28 @@ export default {
 
   created() {
     axios
-      .get("http://localhost:8545/getArticle")
+      .get("http://localhost:8545/getScanPath")
       .then((res) => {
-        // console.log(res);
-        this.articles = res.data;
-        console.log(JSON.stringify(res.data));
+        console.log(res);
+        this.scanPath = res.data.data.scanPath;
+        console.log(this.scanPath);
+
+        this.scanPath.forEach((element) => {
+          console.log(element);
+          axios
+            .get("http://localhost:8545/getArticle", {
+              params: {
+                dir: element,
+              },
+            })
+            .then((res) => {
+              this.articles = this.articles.concat(res.data.data.articles);
+              console.log(JSON.stringify(this.articles));
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -137,10 +160,11 @@ export default {
   methods: {
     openFile(index, row) {
       console.log(index, row.path);
-
       axios
-        .post("http://localhost:8545/openFile", {
-          path: row.path,
+        .get("http://localhost:8545/openFile", {
+          params: {
+            path: row.path,
+          },
         })
         .then((res) => {
           console.log(res);
@@ -176,7 +200,7 @@ html {
 #search_more {
   padding-top: 20px;
 }
-.tag_btn{
+.tag_btn {
   margin-top: 10px;
   margin-left: auto;
 }

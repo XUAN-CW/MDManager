@@ -5,3 +5,17 @@ server:
 conf:
   rootPath: "."
 
+settings:
+  scanPath:
+    - 'D:\core\java'
+    - 'D:\core\front end'
+
+  excludeDir:
+    - '.+MyMaven'
+    - '.+data'
+    - '.+references'
+  excludeDirBySubfile:
+    - 'node_modules'
+    - '.idea'
+
+

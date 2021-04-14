@@ -14,7 +14,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 // import CheckboxDemo from './components/checkboxDemo.vue'
 // import DialogForm from './components/DialogForm.vue'
-import MD from './components/MD'
+import MD from './views/MD'
 import Test from '@/components/Test/Test'
 
 export default {

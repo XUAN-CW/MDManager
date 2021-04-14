@@ -26,9 +26,7 @@
         </el-select>
       </div>
     </div>
-    <el-table
-      :data=afterFiltering
-    >
+    <el-table :data="afterFiltering">
       <el-table-column label="title">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -90,6 +88,10 @@ export default {
     return {
       scanPath: [],
       articles: [],
+      allTag: [],
+      allCategory: [],
+      afterFiltering: [],
+
       search: {
         options: [
           {
@@ -109,59 +111,74 @@ export default {
     };
   },
 
-  computed: {
-    allTag() {
-      // 1. 合并所有 tag
-      let tagConcatResult = [];
-      for (let i = 0; i < this.articles.length; i++) {
-        tagConcatResult = tagConcatResult.concat(this.articles[i].tags);
-      }
+  watch: {
+    articles: {
+      handler(articles) {
+        console.log("articles change");
+        console.log(articles);
+        let tagConcatResult = [];
+        for (let i = 0; i < articles.length; i++) {
+          tagConcatResult = tagConcatResult.concat(articles[i].tags);
+        }
 
-      // 2. 对合并到的 tag 去重
-      let result = {};
-      let finalResult = [];
-      for (let i = 0; i < tagConcatResult.length; i++) {
-        // tagConcatResult[i].something 不能重复,达到去重效果,且这里必须知晓"something"或是其他键名
-        result[tagConcatResult[i]] = tagConcatResult[i];
-      }
-      for (const item in result) {
-        if (item != "null") {
-          finalResult.push(result[item]);
+        // 2. 对合并到的 tag 去重
+        let result = {};
+        let finalResult = [];
+        for (let i = 0; i < tagConcatResult.length; i++) {
+          // tagConcatResult[i].something 不能重复,达到去重效果,且这里必须知晓"something"或是其他键名
+          result[tagConcatResult[i]] = tagConcatResult[i];
         }
-      }
-      return finalResult; //要返回的数据
-    },
-    allCategory() {
-      return ["aa", "bb"]; //要返回的数据
-    },
-    afterFiltering() {
-      return this.articles.filter((article) => {
-        if (this.search.value == "") {
-          return true;
-        }
-        return this.search.value.every((currentValue) => {
-          //如果 currentValue 存在于 (allTag+allCategory) 之中，则判定其为 tag 或 category
-          //如果 currentValue 不存在于 (allTag+allCategory) 之中，则判定其为标题
-          let isTag = this.allTag.findIndex((item) => item === currentValue) != -1;
-          let isCategory =
-            this.allCategory.findIndex((item) => item === currentValue) != -1;
-          if (isTag || isCategory) {
-            if (isTag) {
-              return (
-                article.tags.findIndex((item) => item === currentValue) != -1
-              );
-            }
-            if (isCategory) {
-              return (
-                article.categories.findIndex((item) => item === currentValue) !=
-                -1
-              );
-            }
-          } else {
-            return JSON.stringify(article.title).includes(currentValue);
+        for (const item in result) {
+          if (item != "null") {
+            finalResult.push(result[item]);
           }
+        }
+
+        console.log(finalResult);
+        this.allTag = finalResult; //要返回的数据
+        this.allCategory = ["aa", "bb"];
+
+        this.search.options[0].options = this.allTag;
+        this.search.options[1].options = this.allCategory;
+      },
+      immediate: true,
+      deep: true,
+    },
+    "search.value": {
+      handler() {
+        console.log("search.value");
+        // console.log(this.articles)
+        this.afterFiltering = this.articles.filter((article) => {
+          if (this.search.value == "") {
+            return true;
+          }
+          return this.search.value.every((currentValue) => {
+            //如果 currentValue 存在于 (allTag+allCategory) 之中，则判定其为 tag 或 category
+            //如果 currentValue 不存在于 (allTag+allCategory) 之中，则判定其为标题
+            let isTag =
+              this.allTag.findIndex((item) => item === currentValue) != -1;
+            let isCategory =
+              this.allCategory.findIndex((item) => item === currentValue) != -1;
+            if (isTag || isCategory) {
+              if (isTag) {
+                return (
+                  article.tags.findIndex((item) => item === currentValue) != -1
+                );
+              }
+              if (isCategory) {
+                return (
+                  article.categories.findIndex(
+                    (item) => item === currentValue
+                  ) != -1
+                );
+              }
+            } else {
+              return JSON.stringify(article.title).includes(currentValue);
+            }
+          });
         });
-      });
+      },
+      immediate: true,
     },
   },
 
@@ -183,6 +200,7 @@ export default {
             })
             .then((res) => {
               this.articles = this.articles.concat(res.data.data.articles);
+              this.afterFiltering = this.articles;
               // console.log(JSON.stringify(this.articles));
             })
             .catch((err) => {
@@ -219,10 +237,7 @@ export default {
     },
     setSearchOptions(callback) {
       if (callback) {
-        this.search.options[0].options = this.allTag;
-        console.log(this.allCategory);
-        this.search.options[1].options = this.allCategory;
-        console.log(this.search);
+        //TODO
       } else {
         console.log(this.search.value);
       }

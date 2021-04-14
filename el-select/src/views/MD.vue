@@ -2,58 +2,57 @@
   <div id="MD">
     <div id="serachDiv">
       <div id="search_basics">
-        <div id="search_input">
-          <el-input v-model="search.title" placeholder="按标题搜索"></el-input>
-        </div>
-
-        <div id="search_more_btn">
-          <el-button type="primary" @click="search.more = !search.more"
-            >标签/目录搜索</el-button
+        <el-select
+          v-model="search.value"
+          multiple
+          filterable
+          allow-create
+          placeholder="请选择"
+          @visible-change="setSearchOptions($event)"
+        >
+          <el-option-group
+            v-for="group in search.options"
+            :key="group.label"
+            :label="group.label"
           >
-        </div>
-      </div>
-      <div></div>
-      <div id="search_more" v-show="this.search.more">
-        <el-checkbox-group v-model="search.checkedTags">
-          <el-checkbox-button
-            border
-            size="medium"
-            v-for="tag in allTag"
-            class="tag_btn"
-            :label="tag"
-            :key="tag"
-            >{{ tag }}</el-checkbox-button
-          >
-        </el-checkbox-group>
+            <el-option
+              v-for="item in group.options"
+              :key="item.index"
+              :label="item"
+              :value="item"
+            >
+            </el-option>
+          </el-option-group>
+        </el-select>
       </div>
     </div>
     <el-table
       :data="
         articles.filter((article) => {
-          let titleFilter = JSON.stringify(article)
-            .toLowerCase()
-            .includes(search.title.toLowerCase());
+          // let titleFilter = JSON.stringify(article)
+          //   .toLowerCase()
+          //   .includes(search.title.toLowerCase());
 
-          let tagFilter = true;
-          if (this.search.checkedTags != '') {
-            if (article.tags != null) {
-              for (let i = 0; i < search.checkedTags.length && tagFilter; i++) {
-                if (
-                  article.tags.findIndex(
-                    (item) => item === search.checkedTags[i]
-                  ) != -1
-                ) {
-                  tagFilter = true;
-                } else {
-                  tagFilter = false;
-                }
-              }
-            } else {
-              tagFilter = false;
-            }
-          }
+          // let tagFilter = true;
+          // if (this.search.checkedTags != '') {
+          //   if (article.tags != null) {
+          //     for (let i = 0; i < search.checkedTags.length && tagFilter; i++) {
+          //       if (
+          //         article.tags.findIndex(
+          //           (item) => item === search.checkedTags[i]
+          //         ) != -1
+          //       ) {
+          //         tagFilter = true;
+          //       } else {
+          //         tagFilter = false;
+          //       }
+          //     }
+          //   } else {
+          //     tagFilter = false;
+          //   }
+          // }
 
-          return titleFilter && tagFilter;
+          return true;
         })
       "
     >
@@ -119,9 +118,43 @@ export default {
       scanPath: [],
       articles: [],
       search: {
-        title: "",
-        more: true,
-        checkedTags: [],
+        options: [
+          {
+            label: "tags",
+            options: [
+              {
+                value: "Shanghai",
+                label: "上海",
+              },
+              {
+                value: "Beijing",
+                label: "北京",
+              },
+            ],
+          },
+          {
+            label: "categories",
+            options: [
+              {
+                value: "Chengdu",
+                label: "成都",
+              },
+              {
+                value: "Shenzhen",
+                label: "深圳",
+              },
+              {
+                value: "Guangzhou",
+                label: "广州",
+              },
+              {
+                value: "Dalian",
+                label: "大连",
+              },
+            ],
+          },
+        ],
+        value: "",
       },
       edit: {
         editTag: [],
@@ -151,6 +184,9 @@ export default {
       }
       return finalResult; //要返回的数据
     },
+    allCategory() {
+      return ["aa", "bb"]; //要返回的数据
+    },
   },
 
   created() {
@@ -159,10 +195,10 @@ export default {
       .then((res) => {
         console.log(res);
         this.scanPath = res.data.data.scanPath;
-        console.log(this.scanPath);
+        // console.log(this.scanPath);
 
         this.scanPath.forEach((element) => {
-          console.log(element);
+          // console.log(element);
           axios
             .get("http://localhost:8545/getArticle", {
               params: {
@@ -171,7 +207,7 @@ export default {
             })
             .then((res) => {
               this.articles = this.articles.concat(res.data.data.articles);
-              console.log(JSON.stringify(this.articles));
+              // console.log(JSON.stringify(this.articles));
             })
             .catch((err) => {
               console.log(err);
@@ -203,6 +239,16 @@ export default {
       //只有回调参数为false时才触发 ctx.getAreaListDataSearch(vc,1)这个函数;
       if (callback) {
         this.edit.editTag = this.allTag;
+      }
+    },
+    setSearchOptions(callback) {
+      if (callback) {
+        this.search.options[0].options = this.allTag;
+        console.log(this.allCategory);
+        this.search.options[1].options = this.allCategory;
+        console.log(this.search);
+      } else {
+        console.log(this.search.value);
       }
     },
   },

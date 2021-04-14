@@ -29,28 +29,6 @@
     <el-table
       :data="
         articles.filter((article) => {
-          // let titleFilter = JSON.stringify(article)
-          //   .toLowerCase()
-          //   .includes(search.title.toLowerCase());
-
-          // let tagFilter = true;
-          // if (this.search.checkedTags != '') {
-          //   if (article.tags != null) {
-          //     for (let i = 0; i < search.checkedTags.length && tagFilter; i++) {
-          //       if (
-          //         article.tags.findIndex(
-          //           (item) => item === search.checkedTags[i]
-          //         ) != -1
-          //       ) {
-          //         tagFilter = true;
-          //       } else {
-          //         tagFilter = false;
-          //       }
-          //     }
-          //   } else {
-          //     tagFilter = false;
-          //   }
-          // }
           if (search.value == '') {
             return true;
           }

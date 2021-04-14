@@ -27,29 +27,7 @@
       </div>
     </div>
     <el-table
-      :data="
-        articles.filter((article) => {
-          if (search.value == '') {
-            return true;
-          }
-          return search.value.every((currentValue) => {
-          //如果 currentValue 存在于 (allTag+allCategory) 之中，则判定其为 tag 或 category
-          //如果 currentValue 不存在于 (allTag+allCategory) 之中，则判定其为标题
-            let isTag = allTag.findIndex((item) => item === currentValue) != -1;
-            let isCategory = allCategory.findIndex((item) => item === currentValue) != -1;
-            if (isTag || isCategory) {
-              if (isTag) {
-                return (article.tags.findIndex((item) => item === currentValue) != -1);
-              }
-              if (isCategory) {
-                return (article.categories.findIndex((item) => item === currentValue) != -1);
-              }
-            } else {
-              return JSON.stringify(article.title).includes(currentValue);
-            }
-          });
-        })
-      "
+      :data=afterFiltering
     >
       <el-table-column label="title">
         <template slot-scope="scope">
@@ -155,6 +133,35 @@ export default {
     },
     allCategory() {
       return ["aa", "bb"]; //要返回的数据
+    },
+    afterFiltering() {
+      return this.articles.filter((article) => {
+        if (this.search.value == "") {
+          return true;
+        }
+        return this.search.value.every((currentValue) => {
+          //如果 currentValue 存在于 (allTag+allCategory) 之中，则判定其为 tag 或 category
+          //如果 currentValue 不存在于 (allTag+allCategory) 之中，则判定其为标题
+          let isTag = this.allTag.findIndex((item) => item === currentValue) != -1;
+          let isCategory =
+            this.allCategory.findIndex((item) => item === currentValue) != -1;
+          if (isTag || isCategory) {
+            if (isTag) {
+              return (
+                article.tags.findIndex((item) => item === currentValue) != -1
+              );
+            }
+            if (isCategory) {
+              return (
+                article.categories.findIndex((item) => item === currentValue) !=
+                -1
+              );
+            }
+          } else {
+            return JSON.stringify(article.title).includes(currentValue);
+          }
+        });
+      });
     },
   },
 

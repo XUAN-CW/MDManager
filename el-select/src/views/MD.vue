@@ -26,7 +26,14 @@
         </el-select>
       </div>
     </div>
-    <el-table :data="afterFiltering">
+    <el-table
+      :data="
+        showArticles.afterFiltering.slice(
+          (this.showArticles.currentPage - 1) * this.showArticles.pagesize,
+          this.showArticles.currentPage * this.showArticles.pagesize
+        )
+      "
+    >
       <el-table-column label="title">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -78,6 +85,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="showArticles.currentPage"
+      :page-sizes="[5, 10, 20, 40]"
+      :page-size="showArticles.pagesize"
+      layout="total,sizes,prev,pager,next,jumper"
+      :total="showArticles.afterFiltering.length"
+    >
+    </el-pagination>
   </div>
 </template>
 
@@ -90,8 +107,11 @@ export default {
       articles: [],
       allTag: [],
       allCategory: [],
-      afterFiltering: [],
-
+      showArticles: {
+        currentPage: 1, //默认页码为1
+        pagesize: 10, //默认一页显示10条
+        afterFiltering: [],
+      },
       search: {
         options: [
           {
@@ -128,6 +148,8 @@ export default {
         this.allCategory = Array.from(new Set(categoryConcatResult));
         this.search.options[0].options = this.allTag;
         this.search.options[1].options = this.allCategory;
+
+        this.showArticles.afterFiltering = articles;
       },
       immediate: true,
       deep: true,
@@ -136,7 +158,7 @@ export default {
       handler() {
         console.log("search.value");
         // console.log(this.articles)
-        this.afterFiltering = this.articles.filter((article) => {
+        this.showArticles.afterFiltering = this.articles.filter((article) => {
           if (this.search.value == "") {
             return true;
           }
@@ -194,7 +216,7 @@ export default {
             })
             .then((res) => {
               this.articles = this.articles.concat(res.data.data.articles);
-              this.afterFiltering = this.articles;
+              this.showArticles.afterFiltering = this.articles;
               // console.log(JSON.stringify(this.articles));
             })
             .catch((err) => {
@@ -235,6 +257,14 @@ export default {
       } else {
         console.log(this.search.value);
       }
+    },
+    handleSizeChange(size) {
+      //一页显示多少条
+      this.showArticles.pagesize = size;
+    },
+    handleCurrentChange(currentPage) {
+      //页码更改方法
+      this.showArticles.currentPage = currentPage;
     },
   },
 };

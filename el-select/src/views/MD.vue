@@ -51,8 +51,25 @@
           //     tagFilter = false;
           //   }
           // }
-
-          return true;
+          if (search.value == '') {
+            return true;
+          }
+          return search.value.every((currentValue) => {
+          //如果 currentValue 存在于 (allTag+allCategory) 之中，则判定其为 tag 或 category
+          //如果 currentValue 不存在于 (allTag+allCategory) 之中，则判定其为标题
+            let isTag = allTag.findIndex((item) => item === currentValue) != -1;
+            let isCategory = allCategory.findIndex((item) => item === currentValue) != -1;
+            if (isTag || isCategory) {
+              if (isTag) {
+                return (article.tags.findIndex((item) => item === currentValue) != -1);
+              }
+              if (isCategory) {
+                return (article.categories.findIndex((item) => item === currentValue) != -1);
+              }
+            } else {
+              return JSON.stringify(article.title).includes(currentValue);
+            }
+          });
         })
       "
     >
@@ -128,7 +145,7 @@ export default {
             options: [],
           },
         ],
-        value: "",
+        value: [],
       },
       edit: {
         editTag: [],

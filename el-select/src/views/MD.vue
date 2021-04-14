@@ -114,30 +114,18 @@ export default {
   watch: {
     articles: {
       handler(articles) {
-        console.log("articles change");
-        console.log(articles);
         let tagConcatResult = [];
+        let categoryConcatResult = [];
         for (let i = 0; i < articles.length; i++) {
-          tagConcatResult = tagConcatResult.concat(articles[i].tags);
+          tagConcatResult = tagConcatResult.concat(
+            articles[i].tags == null ? "null" : articles[i].tags
+          );
+          categoryConcatResult = categoryConcatResult.concat(
+            articles[i].categories == null ? "null" : articles[i].categories
+          );
         }
-
-        // 2. 对合并到的 tag 去重
-        let result = {};
-        let finalResult = [];
-        for (let i = 0; i < tagConcatResult.length; i++) {
-          // tagConcatResult[i].something 不能重复,达到去重效果,且这里必须知晓"something"或是其他键名
-          result[tagConcatResult[i]] = tagConcatResult[i];
-        }
-        for (const item in result) {
-          if (item != "null") {
-            finalResult.push(result[item]);
-          }
-        }
-
-        console.log(finalResult);
-        this.allTag = finalResult; //要返回的数据
-        this.allCategory = ["aa", "bb"];
-
+        this.allTag = Array.from(new Set(tagConcatResult)); //要返回的数据
+        this.allCategory = Array.from(new Set(categoryConcatResult));
         this.search.options[0].options = this.allTag;
         this.search.options[1].options = this.allCategory;
       },
@@ -156,21 +144,27 @@ export default {
             //如果 currentValue 存在于 (allTag+allCategory) 之中，则判定其为 tag 或 category
             //如果 currentValue 不存在于 (allTag+allCategory) 之中，则判定其为标题
             let isTag =
-              this.allTag.findIndex((item) => item === currentValue) != -1;
+              this.allTag == null
+                ? false
+                : this.allTag.findIndex((item) => item === currentValue) != -1;
             let isCategory =
-              this.allCategory.findIndex((item) => item === currentValue) != -1;
+              this.allCategory == null
+                ? false
+                : this.allCategory.findIndex((item) => item === currentValue) !=
+                  -1;
             if (isTag || isCategory) {
               if (isTag) {
-                return (
-                  article.tags.findIndex((item) => item === currentValue) != -1
-                );
+                return article.tags == null
+                  ? false
+                  : article.tags.findIndex((item) => item === currentValue) !=
+                      -1;
               }
               if (isCategory) {
-                return (
-                  article.categories.findIndex(
-                    (item) => item === currentValue
-                  ) != -1
-                );
+                return article.categories == null
+                  ? false
+                  : article.categories.findIndex(
+                      (item) => item === currentValue
+                    ) != -1;
               }
             } else {
               return JSON.stringify(article.title).includes(currentValue);

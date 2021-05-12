@@ -1,11 +1,13 @@
 <template>
   <div id="app">
     <SelectInput ref="selectInput" :options="search.options"></SelectInput>
+    <MarkdownTable :articles="articles"></MarkdownTable>
   </div>
 </template>
 
 <script>
 import SelectInput from '@/components/SelectInput'
+import MarkdownTable from '@/components/MarkdownTable'
 
 import axios from "axios";
 
@@ -13,6 +15,7 @@ export default {
   name: 'App',
   components: {
     SelectInput,
+    MarkdownTable
   },
   data() {
     return {
@@ -52,9 +55,7 @@ export default {
   },
 
   mounted() {
-    this.$watch('$refs.selectInput.value', (newVal) => {
-      console.log(newVal)
-    })
+    this.$watch('$refs.selectInput.value', (inputValue) => this.search.value = inputValue)
   }
 }
 </script>

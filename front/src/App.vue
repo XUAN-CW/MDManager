@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     filteringByInputValue() {
-      // console.log("search.value");
       return this.articles.filter((article) => {
         if (this.search.value == "") {
           return true;

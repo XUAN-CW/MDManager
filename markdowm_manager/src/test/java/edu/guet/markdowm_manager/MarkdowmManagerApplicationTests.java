@@ -37,9 +37,9 @@ class MarkdowmManagerApplicationTests {
     void updateArticleScanPathTest() throws IOException {
         List<File> fileList = new ArrayList<>();
 
-        fileList.add(new File("D:\\core\\Desktop\\MD"));
+//        fileList.add(new File("D:\\core\\Desktop\\MD"));
 //        fileList.add(new File("D:\\core\\java\\framework\\SpingBootLearning"));
-        fileList.add(new File("D:\\core\\java\\framework"));
+//        fileList.add(new File("D:\\core\\java\\framework"));
         fileList.add(new File("D:\\core\\blog"));
 
         articleDao.updateArticleScanPath(fileList);

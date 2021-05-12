@@ -2,38 +2,20 @@
   <div id="MD">
     <div id="serachDiv">
       <div id="search_basics">
-        <el-select
-          v-model="search.value"
-          multiple
-          filterable
-          allow-create
-          placeholder="请选择"
-          @visible-change="setSearchOptions($event)"
-        >
-          <el-option-group
-            v-for="group in search.options"
-            :key="group.label"
-            :label="group.label"
-          >
-            <el-option
-              v-for="item in group.options"
-              :key="item.index"
-              :label="item"
-              :value="item"
-            >
+        <el-select v-model="search.value" multiple filterable allow-create placeholder="请选择" @visible-change="setSearchOptions($event)">
+          <el-option-group v-for="group in search.options" :key="group.label" :label="group.label">
+            <el-option v-for="item in group.options" :key="item.index" :label="item" :value="item">
             </el-option>
           </el-option-group>
         </el-select>
       </div>
     </div>
-    <el-table
-      :data="
+    <el-table :data="
         showArticles.afterFiltering.slice(
           (this.showArticles.currentPage - 1) * this.showArticles.pagesize,
           this.showArticles.currentPage * this.showArticles.pagesize
         )
-      "
-    >
+      ">
       <el-table-column label="title">
         <template slot-scope="scope">
           <el-popover trigger="hover" placement="top">
@@ -51,49 +33,24 @@
           <el-button size="mini" type="primary">
             <el-popover trigger="click" placement="top" width="1000">
               <span>标签：</span>
-              <el-select
-                v-model="scope.row.tags"
-                multiple
-                filterable
-                allow-create
-                placeholder="请选择"
-                @visible-change="changeValue1($event)"
-                style="width: 95%"
-              >
-                <el-option
-                  v-for="item in edit.editTag"
-                  :key="item.index"
-                  :label="item"
-                  :value="item"
-                >
+              <el-select v-model="scope.row.tags" multiple filterable allow-create placeholder="请选择" @visible-change="changeValue1($event)" style="width: 95%">
+                <el-option v-for="item in edit.editTag" :key="item.index" :label="item" :value="item">
                 </el-option>
               </el-select>
               <div slot="reference">编辑</div>
-            </el-popover></el-button
-          >
-          <el-button
-            size="mini"
-            type="primary"
-            @click="openFile(scope.$index, scope.row)"
-          >
+            </el-popover>
+          </el-button>
+          <el-button size="mini" type="primary" @click="openFile(scope.$index, scope.row)">
             <el-popover trigger="hover" placement="top">
               <h4>{{ scope.row.title }}</h4>
               <p>路径：{{ scope.row.path }}</p>
               <div slot="reference">打开</div>
-            </el-popover></el-button
-          >
+            </el-popover>
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="showArticles.currentPage"
-      :page-sizes="[5, 10, 20, 40]"
-      :page-size="showArticles.pagesize"
-      layout="total,sizes,prev,pager,next,jumper"
-      :total="showArticles.afterFiltering.length"
-    >
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="showArticles.currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="showArticles.pagesize" layout="total,sizes,prev,pager,next,jumper" :total="showArticles.afterFiltering.length">
     </el-pagination>
   </div>
 </template>
@@ -173,20 +130,20 @@ export default {
               this.allCategory == null
                 ? false
                 : this.allCategory.findIndex((item) => item === currentValue) !=
-                  -1;
+                -1;
             if (isTag || isCategory) {
               if (isTag) {
                 return article.tags == null
                   ? false
                   : article.tags.findIndex((item) => item === currentValue) !=
-                      -1;
+                  -1;
               }
               if (isCategory) {
                 return article.categories == null
                   ? false
                   : article.categories.findIndex(
-                      (item) => item === currentValue
-                    ) != -1;
+                    (item) => item === currentValue
+                  ) != -1;
               }
             } else {
               return JSON.stringify(article.title).includes(currentValue);

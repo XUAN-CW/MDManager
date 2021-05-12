@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <el-table :data="articleIncurrentPage()">
       <el-table-column label="title">
         <template slot-scope="scope">
@@ -20,7 +19,7 @@
             <el-popover trigger="click" placement="top" width="1000">
               <span>标签：</span>
               <el-select v-model="scope.row.tags" multiple filterable allow-create placeholder="请选择" @visible-change="changeValue1($event)" style="width: 95%">
-                <el-option v-for="item in edit.editTag" :key="item.index" :label="item" :value="item">
+                <el-option v-for="item in scope.row.tags" :key="item.index" :label="item" :value="item">
                 </el-option>
               </el-select>
               <div slot="reference">编辑</div>
@@ -36,7 +35,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="showArticles.currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="showArticles.pagesize" layout="total,sizes,prev,pager,next,jumper" :total="showArticles.afterFiltering.length">
+    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="showArticles.currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="showArticles.pagesize" layout="total,sizes,prev,pager,next,jumper" :total="markdownArticles.length">
     </el-pagination>
   </div>
 </template>
@@ -45,7 +44,7 @@
 export default {
 
   props: {
-    articles: {}
+    markdownArticles: {}
   },
   data() {
     return {
@@ -56,10 +55,23 @@ export default {
     }
   },
 
+
+  watch: {
+    articles: {
+      handler(articles) {
+        console.log(articles)
+      },
+    },
+  },
+  mounted() {
+    console.log(this.markdownArticles)
+  },
+
   methods: {
 
     articleIncurrentPage() {
-      return articles.slice((this.showArticles.currentPage - 1) * this.showArticles.pagesize, this.showArticles.currentPage * this.showArticles.pagesize)
+      return this.markdownArticles.slice((this.showArticles.currentPage - 1) * this.showArticles.pagesize, this.showArticles.currentPage * this.showArticles.pagesize)
+
     },
 
     handleSizeChange(size) {

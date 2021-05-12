@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <SelectInput ref="selectInput" :options="search.options"></SelectInput>
-    <MarkdownTable :articles="articles"></MarkdownTable>
+    <MarkdownTable v-if="articles!=null" :markdownArticles="articles"></MarkdownTable>
   </div>
 </template>
 
@@ -48,7 +48,7 @@ export default {
     axios.get("http://localhost:8545/getArticles", {
     }).then((res) => {
       this.articles = res.data.data.articles
-      console.log(this.articles)
+      // console.log(this.articles)
     }).catch((err) => {
       console.log(err);
     });

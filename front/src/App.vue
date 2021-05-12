@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <SelectInput ref="selectInput" :options="options"></SelectInput>
+    <SelectInput ref="selectInput" :options="search.options"></SelectInput>
   </div>
 </template>
 
@@ -16,9 +16,11 @@ export default {
   },
   data() {
     return {
-      options: ['11', '22', '33'],
-      value: '',
-      articles: []
+      articles: [],
+      search: {
+        options: [],
+        value: [],
+      },
     }
   },
 
@@ -26,21 +28,16 @@ export default {
     articles: {
       handler(articles) {
         let searchOptions = [];
-        // let tagConcatResult = [];
-        // let categoryConcatResult = [];
         for (let i = 0; i < articles.length; i++) {
-          searchOptions = searchOptions.concat(articles[i].tags == null ? "null" : articles[i].tags);
-          searchOptions = searchOptions.concat(articles[i].categories == null ? "null" : articles[i].categories);
-
-          // tagConcatResult = tagConcatResult.concat(articles[i].tags == null ? "null" : articles[i].tags);
-          // categoryConcatResult = categoryConcatResult.concat(articles[i].categories == null ? "null" : articles[i].categories);
+          if (articles[i].tags != null) {
+            searchOptions = searchOptions.concat(articles[i].tags);
+          }
+          if (articles[i].categories != null) {
+            searchOptions = searchOptions.concat(articles[i].categories);
+          }
         }
-        // this.allTag = Array.from(new Set(tagConcatResult)); //要返回的数据
-        // this.allCategory = Array.from(new Set(categoryConcatResult));
-        this.options = Array.from(new Set(searchOptions));
+        this.search.options = Array.from(new Set(searchOptions));
       },
-      immediate: true,
-      deep: true,
     },
   },
 

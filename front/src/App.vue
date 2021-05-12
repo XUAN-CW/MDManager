@@ -21,8 +21,7 @@ export default {
     return {
       articles: [],
       search: {
-        options: [],
-        value: [],
+        options: []
       },
     }
   },
@@ -60,7 +59,7 @@ export default {
         if (this.search.value == "") {
           return true;
         }
-        return this.search.value.every((currentValue) => {
+        return this.$refs.selectInput.value.every((currentValue) => {
           let currentValueInTags = article.tags == null ? false : article.tags.findIndex((item) => item === currentValue) != -1;
           let currentValueInCategories = article.categories == null ? false : article.categories.findIndex((item) => item === currentValue) != -1;
           let currentValueInTitle = JSON.stringify(article.title).includes(currentValue);
@@ -69,9 +68,6 @@ export default {
       });
 
     },
-  },
-  mounted() {
-    this.$watch('$refs.selectInput.value', (inputValue) => this.search.value = inputValue)
   }
 }
 </script>

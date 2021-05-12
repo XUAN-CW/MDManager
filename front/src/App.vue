@@ -71,10 +71,7 @@ export default {
     },
   },
   mounted() {
-    this.$watch('$refs.selectInput.value', (inputValue) => {
-      this.search.value = inputValue
-      console.log(this.search.value)
-      })
+    this.$watch('$refs.selectInput.value', (inputValue) => this.search.value = inputValue)
   }
 }
 </script>

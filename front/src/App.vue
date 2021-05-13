@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <SelectInput ref="selectInput" :options="search.options"></SelectInput>
+    <div class="searchInputDiv">
+      <SelectInput class="searchInput" ref="selectInput" :options="search.options"></SelectInput>
+    </div>
     <MarkdownTable v-if="articles!=null" :markdownArticles="filteringByInputValue()"></MarkdownTable>
   </div>
 </template>
@@ -72,4 +74,13 @@ export default {
 </script>
 
 <style>
+.searchInputDiv {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+.searchInput {
+  width: 70%;
+}
 </style>

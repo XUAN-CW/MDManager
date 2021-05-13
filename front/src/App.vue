@@ -81,6 +81,6 @@ export default {
 }
 
 .searchInput {
-  width: 70%;
+  width: 60%;
 }
 </style>

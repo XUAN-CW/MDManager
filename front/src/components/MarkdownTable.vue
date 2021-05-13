@@ -18,10 +18,6 @@
           <el-button size="mini" type="primary">
             <el-popover trigger="click" placement="top" width="1000">
               <span>标签：</span>
-              <el-select v-model="scope.row.tags" multiple filterable allow-create placeholder="请选择" @visible-change="changeValue1($event)" style="width: 95%">
-                <el-option v-for="item in scope.row.tags" :key="item.index" :label="item" :value="item">
-                </el-option>
-              </el-select>
               <div slot="reference">编辑</div>
             </el-popover>
           </el-button>

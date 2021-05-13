@@ -13,7 +13,7 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="200%" id="table_operate">
+      <el-table-column label="操作" width="200%">
         <template slot-scope="scope">
           <el-button size="mini" type="primary">
             <el-popover trigger="click" placement="top" width="1000">

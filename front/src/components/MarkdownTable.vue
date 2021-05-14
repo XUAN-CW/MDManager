@@ -31,12 +31,16 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="paginationDiv">
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="showArticles.currentPage" :page-sizes="[5, 10, 20, 40]" :page-size="showArticles.pagesize" layout="total,sizes,prev,pager,next,jumper" :total="markdownArticles.length">
     </el-pagination>
+    </div>
   </div>
 </template>
 
 <script>
+
+import axios from "axios";
 export default {
 
   props: {
@@ -64,7 +68,19 @@ export default {
   },
 
   methods: {
-
+    openFile(index, row) {
+      console.log(index, row.path);
+      axios
+        .get("http://localhost:8545/openFile", {
+          params: {
+            path: row.path,
+          },
+        }).then((res) => {
+          console.log(res);
+        }).catch((err) => {
+          console.log(err);
+        });
+    },
     articleIncurrentPage() {
       return this.markdownArticles.slice((this.showArticles.currentPage - 1) * this.showArticles.pagesize, this.showArticles.currentPage * this.showArticles.pagesize)
 
@@ -81,3 +97,11 @@ export default {
   },
 }
 </script>
+
+<style>
+.paginationDiv {
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+</style>

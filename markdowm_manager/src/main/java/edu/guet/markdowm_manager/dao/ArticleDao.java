@@ -2,7 +2,7 @@ package edu.guet.markdowm_manager.dao;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import edu.guet.markdowm_manager.dao.utils.SaveAndRead;
+import edu.guet.markdowm_manager.dao.utils.SaveAndReadByUTF8;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +24,7 @@ public class ArticleDao {
     String scanDirConfiguration;
 
     public List<File> retrieveArticleScanPath(){
-        String paths = SaveAndRead.read(scanDirConfiguration);
+        String paths = SaveAndReadByUTF8.read(scanDirConfiguration);
         List<File> fileList = new ArrayList<>();
         JSONArray jsonArray = JSONArray.parseArray(paths);
         if (null != jsonArray){
@@ -39,6 +39,6 @@ public class ArticleDao {
     }
 
     public void updateArticleScanPath(List<File> fileList){
-        SaveAndRead.save(scanDirConfiguration,JSONObject.toJSONString(fileList));
+        SaveAndReadByUTF8.save(scanDirConfiguration,JSONObject.toJSONString(fileList));
     }
 }

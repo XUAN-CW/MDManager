@@ -1,7 +1,7 @@
 package edu.guet.markdowm_manager.service;
 
 import edu.guet.markdowm_manager.dao.ArticleDao;
-import edu.guet.markdowm_manager.dao.utils.SaveAndRead;
+import edu.guet.markdowm_manager.dao.utils.SaveAndReadByUTF8;
 import edu.guet.markdowm_manager.domain.Article;
 import edu.guet.markdowm_manager.utils.GetMarkdown;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class ArticleService {
         List<Article> articleList = new ArrayList<>();
         for (File file:markdownFileList) {
             System.out.println(file.getAbsolutePath());
-            String content = SaveAndRead.read(file.getAbsolutePath());
+            String content = SaveAndReadByUTF8.read(file);
             String reg = "(?<=^(---))[\\s\\S]*?(?=\\1)";//定义正则表达式
 
             Pattern patten = Pattern.compile(reg);//编译正则表达式

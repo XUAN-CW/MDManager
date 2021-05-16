@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,22 +11,26 @@ import java.util.Date;
  * @errors
  */
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         File path = new File(System.getProperty("java.class.path"));
         String title = getFileNameNoEx(path.getName());
         File dir = new File(path.getParent()+File.separator+title);
-        dir.mkdir();
-        File markdown = new File(dir.getAbsolutePath()+File.separator+"README.md");
+        if(!dir.exists()){
+            dir.mkdir();
+            File markdown = new File(dir.getAbsolutePath()+File.separator+"README.md");
 
-        String yaml="---";
-        yaml+="\ntitle: "+title;
-        yaml+="\ndate: "+ new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
-        yaml+="\ntags: ";
-        yaml+="\ncategories: ";
-        yaml+="\n---";
-        yaml+="\n";
+            String yaml="---";
+            yaml+="\ntitle: "+title;
+            yaml+="\ndate: "+ new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date());
+            yaml+="\ntags: ";
+            yaml+="\ncategories: ";
+            yaml+="\n---";
+            yaml+="\n";
+            SaveAndReadByUTF8.save(markdown,yaml);
+        }
 
-        SaveAndReadByUTF8.save(markdown,yaml);
+        String command = "rundll32 url.dll,FileProtocolHandler " + dir.getAbsolutePath();
+        Runtime.getRuntime().exec(command);
     }
 
     private static String getFileNameNoEx(String filename) {

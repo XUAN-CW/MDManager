@@ -17,6 +17,11 @@ public class Main {
         File dir = new File(path.getParent()+File.separator+title);
         if(!dir.exists()){
             dir.mkdir();
+            File references = new File(dir.getAbsolutePath()+File.separator+"references");
+            File data = new File(dir.getAbsolutePath()+File.separator+"data");
+            references.mkdir();
+            data.mkdir();
+
             File markdown = new File(dir.getAbsolutePath()+File.separator+"README.md");
 
             String yaml="---";
@@ -27,6 +32,9 @@ public class Main {
             yaml+="\n---";
             yaml+="\n";
             SaveAndReadByUTF8.save(markdown,yaml);
+
+            String command = "rundll32 url.dll,FileProtocolHandler " + markdown.getAbsolutePath();
+            Runtime.getRuntime().exec(command);
         }
 
         String command = "rundll32 url.dll,FileProtocolHandler " + dir.getAbsolutePath();

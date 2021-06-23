@@ -1,0 +1,29 @@
+#!/bin/sh
+
+dir=$1
+title=$1
+mkdir $dir
+mkdir "$dir/data"
+mkdir "$dir/references"
+
+
+article="$dir/$1.md"
+echo "---" > $article
+echo "title: $title" >> $article
+echo "date: "`date +"%Y-%m-%d %H:%M:%S"` >> $article
+echo "tags: " >> $article
+echo "categories: " >> $article
+#pwd | sed 's/\//\n- /g' | grep . >>  $article # 这一句可以获取当前目录
+# id = 时间戳 + 纳秒
+echo "id: "`date +"%s%N"` >> $article
+echo "---" >> $article
+
+start $dir
+start $article
+
+
+
+
+
+
+

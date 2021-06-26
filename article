@@ -5,6 +5,8 @@ title=$1
 mkdir $dir
 mkdir "$dir/data"
 mkdir "$dir/references"
+mkdir "$dir/pending"
+mkdir "$dir/private"
 
 
 article="$dir/$1.md"
@@ -17,6 +19,8 @@ echo "categories: " >> $article
 # id = 时间戳 + 纳秒
 echo "id: "`date +"%s%N"` >> $article
 echo "---" >> $article
+
+sed -i 's/$/\r/g' $article # 可用此命令更改换行符为 Windows 下的换行符 CRLF
 
 start $dir
 start $article

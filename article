@@ -3,10 +3,10 @@
 dir=$1
 title=$1
 mkdir $dir
-mkdir "$dir/data"
-mkdir "$dir/references"
-mkdir "$dir/pending"
-mkdir "$dir/private"
+mkdir "$dir/assets/data"
+mkdir "$dir/assets/references"
+mkdir "$dir/assets/pending"
+mkdir "$dir/assets/private"
 
 
 article="$dir/$1.md"
